@@ -4,15 +4,20 @@ const cors = require("cors")
 const dotenv = require("dotenv")
 const http = require("http")
 const socketHandler = require("./socket")
+const { ExpressPeerServer } = require("peer")
 
 dotenv.config()
 
 const app = express()
-const server = http.createServer(app)
-const io = require("socket.io")(server, { cors: { origin: "*" } })
 
 app.use(cors())
 app.use(express.json())
+
+const server = http.createServer(app)
+const io = require("socket.io")(server, { cors: { origin: "*" } })
+
+const peerServer = ExpressPeerServer(server, { debug: true, path: "/peerjs" })
+app.use("/peerjs", peerServer)
 
 app.use("/api/rooms", require("./routes/roomRoutes"))
 
