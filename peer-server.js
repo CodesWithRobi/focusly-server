@@ -16,5 +16,5 @@ const peerServer = ExpressPeerServer(server, {
 app.use("/", peerServer);
 
 server.listen(9000, () => {
-  console.log("✅ PeerJS Server is running at http://localhost:9000/peerjs");
+  console.log(`✅ PeerJS Server is running at http://${HOST}:9000/peerjs`);
 });
