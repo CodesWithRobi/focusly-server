@@ -1,33 +1,37 @@
-const express = require("express")
-const mongoose = require("mongoose")
-const cors = require("cors")
-const dotenv = require("dotenv")
-const http = require("http")
-const socketHandler = require("./socket")
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const dotenv = require("dotenv");
+const http = require("http");
+const socketHandler = require("./socket");
 
-dotenv.config()
+dotenv.config();
 
-const app = express()
+const app = express();
 
-app.use(cors())
-app.use(express.json())
+app.use(cors());
+app.use(express.json());
 
-const server = http.createServer(app)
+const server = http.createServer(app);
 const io = require("socket.io")(server, {
   cors: {
     origin: "*",
     methods: ["GET", "POST"],
     credentials: true,
   },
-})
+});
 
-app.use("/api/rooms", require("./routes/roomRoutes"))
+app.use("/api/rooms", require("./routes/roomRoutes"));
+app.use("/api/todo", require("./routes/todoRoutes"));
 
-socketHandler(io)
+socketHandler(io);
 
-mongoose.connect(process.env.MONGO_URI)
+mongoose
+  .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected"))
-  .catch((err) => console.error("Mongo Error", err))
+  .catch((err) => console.error("Mongo Error", err));
 
-const PORT = 3000
-server.listen(PORT, () => console.log(`server running on http://localhost:${PORT}`))
+const PORT = 3000;
+server.listen(PORT, () =>
+  console.log(`server running on http://localhost:${PORT}`)
+);
