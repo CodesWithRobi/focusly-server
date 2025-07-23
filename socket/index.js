@@ -28,8 +28,6 @@ module.exports = function(io) {
           },
         }
       );
-
-      io.to(roomId).emit("receiveMessage", { user, msg, time });
     });
 
     socket.on("disconnect", () => {
