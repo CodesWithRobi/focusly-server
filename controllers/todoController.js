@@ -6,9 +6,9 @@ exports.getTodos = async (req, res) => {
 };
 
 exports.createTodo = async (req, res) => {
-  const todo = new Todo(req.body);
-  await todo.save();
-  res.status(201).json(todo);
+  const { text } = req.body;
+  const newTodo = await Todo.create({ text });
+  res.json(newTodo);
 };
 
 exports.updateTodo = async (req, res) => {
