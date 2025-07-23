@@ -23,6 +23,7 @@ const io = require("socket.io")(server, {
 
 app.use("/api/rooms", require("./routes/roomRoutes"));
 app.use("/api/todo", require("./routes/todoRoutes"));
+app.use("/api/messages", require("./routes/chatRoutes"))
 
 socketHandler(io);
 
