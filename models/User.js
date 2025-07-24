@@ -2,10 +2,18 @@ const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
   username: String,
-  email: String,
-  password: String,
-  totalMinutes: { type: Number, default: 0 },
-  rooms: [String],
+  todos: [
+    {
+      text: {
+        type: String,
+        required: true,
+      },
+      completed: {
+        type: Boolean,
+        default: false,
+      },
+    }
+  ],
   streak: { type: Number, default: 0 },
 });
 
