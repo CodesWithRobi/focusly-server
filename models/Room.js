@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const roomSchema = new mongoose.Schema({
   name: String,
   code: String,
-  isPrivate: Boolean,
+  password: String,
   members: [String],
   chat: [
     {
