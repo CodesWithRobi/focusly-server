@@ -4,6 +4,10 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const http = require("http");
 const socketHandler = require("./socket");
+const streakRoutes = require("./routes/streakRoutes");
+const statsRoutes = require("./routes/statsRoutes");
+
+
 
 dotenv.config();
 
@@ -24,6 +28,9 @@ const io = require("socket.io")(server, {
 app.use("/api/rooms", require("./routes/roomRoutes"));
 app.use("/api/todo", require("./routes/todoRoutes"));
 app.use("/api/messages", require("./routes/chatRoutes"))
+app.use("/api/stats",statsRoutes);
+app.use("/api/streak",streakRoutes);
+
 
 socketHandler(io);
 

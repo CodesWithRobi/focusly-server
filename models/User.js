@@ -14,7 +14,14 @@ const userSchema = new mongoose.Schema({
       },
     }
   ],
-  streak: { type: Number, default: 0 },
+  streak: { 
+    type: Number, 
+    default: 0
+   },
+   lastActivate: {
+    type: Date,
+    default: new Date()
+   }
 });
 
 module.exports = mongoose.model("User", userSchema);
