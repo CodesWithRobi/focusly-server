@@ -28,6 +28,7 @@ module.exports = function(io) {
           },
         }
       );
+      socket.to(roomId).emit("new-message")
     });
 
     socket.on("disconnect", () => {

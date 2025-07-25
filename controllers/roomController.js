@@ -25,3 +25,30 @@ exports.publicRooms = async (req, res) => {
   const room = await Room.find({ password: ""});
   res.json(room);
 };
+
+exports.addUser = async (req, res) => {
+  const { code, user } = req.body;
+  const room = await Room.findOneAndUpdate(
+        { code },
+        {
+          $push: {
+            members: user
+          },
+        }
+      );
+  res.json(room);
+};
+
+exports.removeUser = async (req, res) => {
+  const { code, user } = req.body;
+  const room = await Room.findOneAndUpdate(
+        { code },
+        {
+          $pull: {
+            members: user
+          },
+        }
+      );
+  res.json(room);
+};
+
