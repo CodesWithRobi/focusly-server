@@ -3,7 +3,7 @@ const router = express.Router();
 const Session = require("../models/Session");
 
 // GET /api/stats/:username
-router.get("/stats/:username", async (req, res) => {
+router.get("/:username", async (req, res) => {
   const { username } = req.params;
 
   const today = new Date();
@@ -52,6 +52,30 @@ router.get("/stats/:username", async (req, res) => {
     res.json(stats);
   } catch (error) {
     console.error("Error fetching stats:", error);
+    res.status(500).json({ message: "Server error", error });
+  }
+});
+
+
+router.post("/", async (req, res) => {
+  const { username, duration, type } = req.body;
+
+  if (!username || !duration || !type) {
+    return res.status(400).json({ message: "Missing required fields" });
+  }
+
+  try {
+    const newSession = new Session({
+      username,
+      duration,
+      type,
+      date: new Date(),
+    });
+
+    await newSession.save();
+    res.status(201).json({ message: "Session saved", session: newSession });
+  } catch (error) {
+    console.error("Error saving session:", error);
     res.status(500).json({ message: "Server error", error });
   }
 });
