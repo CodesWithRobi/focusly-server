@@ -17,7 +17,7 @@ module.exports = function(io) {
 
       console.log(`User ${socket.id} joined room ${roomId}`);
 
-      socket.to(roomId).emit("user-connect", peerId);
+      socket.to(roomId).emit("user-connect", {peerId, username});
     });
 
     socket.on("heartbeat", ({ user }) => {

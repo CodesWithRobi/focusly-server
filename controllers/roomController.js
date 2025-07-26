@@ -9,6 +9,15 @@ exports.createRoom = async (req, res) => {
   res.json({ roomCode: code });
 };
 
+
+exports.getRoom = async (req, res) => {
+  const { code } = req.body;
+  const room = await Room.findOne({ code });
+
+  if (!room) return res.status(404).json({ error: "Room not found" });
+  res.json(room);
+};
+
 exports.joinRoom = async (req, res) => {
   const { code, password } = req.body;
   const room = await Room.findOne({  $or: [
@@ -20,6 +29,23 @@ exports.joinRoom = async (req, res) => {
   if (!room) return res.status(404).json({ error: "Room not found" });
   res.json(room);
 };
+
+exports.updateRoom = async (req, res) => {
+  const { name, password } = req.body
+  const code = req.params.id
+  try {
+    const updated = await Room.findOneAndUpdate(
+      { code },
+      {
+      ...(name && { name }),
+      ...(password && { password }),
+    }, { new: true })
+
+    res.status(200).json(updated)
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+}
 
 exports.publicRooms = async (req, res) => {
   const room = await Room.find({ password: ""});
